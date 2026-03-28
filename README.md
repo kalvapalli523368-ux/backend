@@ -21,10 +21,10 @@ This is the backend server for the Student Complaint Management system. It provi
 ---
 
 ## ⚙️ Technology Stack
-- **Node.js & Express.js**: Core server framework.
+- **Node.js & Express.js**: Core server framework (Recommended Node 18.x for deployment).
 - **SQLite3**: Lightweight database.
 - **JSON Web Tokens (JWT)**: Stateless authentication.
-- **Bcrypt**: Secure password hashing.
+- **Bcryptjs**: Optimized JavaScript library for secure password hashing.
 
 ---
 
