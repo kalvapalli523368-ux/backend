@@ -20,6 +20,11 @@ if (!fs.existsSync(uploadDir)) {
 // Serve static files from uploads folder
 app.use('/uploads', express.static(uploadDir));
 
+// Health Check
+app.get('/', (req, res) => {
+  res.json({ message: 'Student Complaint API is running!' });
+});
+
 // Routes
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/complaints', require('./routes/complaints'));
