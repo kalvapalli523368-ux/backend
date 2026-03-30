@@ -2,9 +2,6 @@ const express = require('express');
 const router = express.Router();
 const db = require('../db');
 const { protect, adminOnly } = require('../middleware/authMiddleware');
-const upload = require('../middleware/uploadMiddleware');
-const fs = require('fs');
-const path = require('path');
 
 // Create complaint
 router.post('/', protect, async (req, res) => {
@@ -19,11 +16,11 @@ router.post('/', protect, async (req, res) => {
 
   try {
     const [result] = await db.query(
-      'INSERT INTO complaints (student_id, title, description, image_url) VALUES (?, ?, ?, ?)',
-      [req.user.id, title, description, '']
+      'INSERT INTO complaints (student_id, title, description) VALUES (?, ?, ?)',
+      [req.user.id, title, description]
     );
 
-    res.status(201).json({ id: result.insertId, student_id: req.user.id, title, description, image_url: '', status: 'Pending' });
+    res.status(201).json({ id: result.insertId, student_id: req.user.id, title, description, status: 'Pending' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server error' });
@@ -86,18 +83,6 @@ router.delete('/:id', protect, adminOnly, async (req, res) => {
   const { id } = req.params;
 
   try {
-    const [complaints] = await db.query('SELECT image_url FROM complaints WHERE id = ?', [id]);
-    
-    if (complaints.length > 0) {
-      const imageUrl = complaints[0].image_url;
-      if (imageUrl) {
-        const filePath = path.join(__dirname, '..', imageUrl);
-        if (fs.existsSync(filePath)) {
-          fs.unlinkSync(filePath);
-        }
-      }
-    }
-
     await db.query('DELETE FROM complaints WHERE id = ?', [id]);
     res.json({ message: 'Complaint deleted' });
   } catch (error) {
