@@ -51,7 +51,7 @@ router.get('/', protect, async (req, res) => {
 
 // Update Complaint (Admins or Student Owner)
 router.put('/:id', protect, async (req, res) => {
-  const { title, description, status } = req.body;
+  const { title, description, status, adminRemark } = req.body;
   const { id } = req.params;
 
   try {
@@ -63,14 +63,18 @@ router.put('/:id', protect, async (req, res) => {
       return res.status(403).json({ message: 'Not authorized to edit this complaint' });
     }
 
-    // Only admin can successfully change Status
+    // Only admin can successfully change Status or Admin Remark
     const newStatus = (req.user.role === 'admin' && status) ? status : existing[0].status;
+    const newAdminRemark = (req.user.role === 'admin' && adminRemark !== undefined) ? adminRemark : existing[0].admin_remark;
 
     if (req.user.role === 'admin' && status && !['Pending', 'In Progress', 'Resolved'].includes(status)) {
       return res.status(400).json({ message: 'Invalid status' });
     }
 
-    await db.query('UPDATE complaints SET title = ?, description = ?, status = ? WHERE id = ?', [title, description, newStatus, id]);
+    await db.query(
+      'UPDATE complaints SET title = ?, description = ?, status = ?, admin_remark = ? WHERE id = ?',
+      [title, description, newStatus, newAdminRemark, id]
+    );
     res.json({ message: 'Complaint updated successfully' });
   } catch (error) {
     console.error(error);

@@ -13,6 +13,10 @@ CREATE TABLE IF NOT EXISTS complaints (
   title TEXT NOT NULL,
   description TEXT NOT NULL,
   status TEXT DEFAULT 'Pending',
+  admin_remark TEXT,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (student_id) REFERENCES users(id) ON DELETE CASCADE
 );
+
+--delete the column image_url from the complaints table
+-- ALTER TABLE complaints DROP COLUMN image_url;

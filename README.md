@@ -5,41 +5,33 @@ This is the backend server for the Student Complaint Management system. It provi
 ## 📂 Project Structure
 
 ```text
-📁 student-complaint-backend/
+📁 backend/
 ├── 📄 server.js             # Main entry point
 ├── 🗄️ db.js                 # SQLite connection
-├── 📜 schema.sql            # Table definitions
+├── 📜 schema.sql            # Table definitions (Users, Complaints)
 ├── 📁 routes/
-│   ├── 🔐 auth.js           # Auth endpoints
-│   └── 📝 complaints.js     # Complaint endpoints
+│   ├── 🔐 auth.js           # Auth (Login/Register)
+│   └── 📝 complaints.js     # Complaints (submission, resolution, and admin_remark)
 ├── 📁 middleware/
-│   └── 🛡️ authMiddleware.js # JWT verification
-├── 📁 assets/               # Architecture diagrams
-└── ⚙️ .env                  # Environment variables
+│   └── 🛡️ authMiddleware.js # JWT + Role-based access
+└── ⚙️ .env                  # Environment secrets
 ```
 
 ---
 
 ## ⚙️ Technology Stack
-- **Node.js & Express.js**: Core server framework (Recommended Node 18.x for deployment).
-- **SQLite3**: Lightweight database.
-- **JSON Web Tokens (JWT)**: Stateless authentication.
-- **Bcryptjs**: Optimized JavaScript library for secure password hashing.
+- **Node.js**: Core server framework.
+- **Express.js**: API development.
+- **SQLite3**: Lightweight database with zero configuration.
+- **Bcryptjs**: Secure password hashing.
+- **JWT**: Stateless session management.
 
 ---
 
-## 🏗️ System Architecture 
-
-Below are the architectural diagrams outlining the flow of data between the Student, Admin, and the System Backend.
-
-### 1. Database & State Flow
-![System Architecture Diagram 1](./assets/Student%20and%20Admin-2026-03-24-173419.png)
-
-### 2. API Request Hierarchy
-![System Architecture Diagram 2](./assets/Student%20and%20Admin-2026-03-24-173427.png)
-
-### 3. Component Interaction Map
-![System Architecture Diagram 3](./assets/Student%20and%20Admin-2026-03-24-173434.png)
+## 🏗️ Latest Enhancements
+- **Admin Remarks**: New `admin_remark` field in the `complaints` table to allow administrators to provide feedback/solutions.
+- **Schema Cleanup**: Removed legacy `image_url` column to optimize the data model.
+- **Automatic Sync**: The `db.js` system automatically initializes the database on startup.
 
 ---
 
@@ -50,28 +42,14 @@ Make sure dependencies are installed (`npm install`), then run:
 node server.js
 ```
 
-The server will automatically create `database.sqlite` and the core tables if they don't exist.
+The database `database.sqlite` will be created automatically if it doesn't exist.
 
 ---
 
-## 📌 Pushing to GitHub (Backend)
-To push this backend server to a new GitHub repository, run these commands in your terminal from the `backend` folder:
+## 🛡️ Security Check
+Ensure `.env` contains a secure **`JWT_SECRET`**.
 
-```bash
-# 1. Initialize Git (if not already done)
-git init
+---
 
-# 2. Add all files to staging (ensure .env and database.sqlite are in .gitignore!)
-git add .
-
-# 3. Commit your changes
-git commit -m "Initial backend commit: Express SQLite setup"
-
-# 4. Link to your empty GitHub repository
-git remote add origin https://github.com/your-username/student-complaint-backend.git
-
-# 5. Push to the main branch
-git branch -M main
-git push -u origin main
-```
-> **⚠️ Security Warning:** Make sure to create a `.gitignore` file mapping `/node_modules`, `.env`, and `database.sqlite` before pushing to avoid leaking secrets or user data!
+## 🏆 Development Credits
+This project was enhanced and modernized by **Antigravity**, a powerful agentic AI coding assistant designed by Google Deepmind.
