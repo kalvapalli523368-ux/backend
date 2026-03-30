@@ -50,6 +50,3 @@ The database `database.sqlite` will be created automatically if it doesn't exist
 Ensure `.env` contains a secure **`JWT_SECRET`**.
 
 ---
-
-## 🏆 Development Credits
-This project was enhanced and modernized by **Antigravity**, a powerful agentic AI coding assistant designed by Google Deepmind.
